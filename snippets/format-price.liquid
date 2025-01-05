@@ -1,0 +1,10 @@
+{%- liquid
+  assign price_parts = price | money | split: ' '
+  assign amount = price_parts[0]
+  if amount contains '€'
+    assign amount = amount | remove: '€' | strip
+    echo amount | append: '€'
+  else
+    echo amount
+  endif
+-%}

@@ -1,0 +1,139 @@
+<section class="w-full h-screen">
+  <div class="flex flex-col md:flex-row h-full">
+    <!-- Première colonne -->
+    <div class="w-full md:w-1/2 h-1/2 md:h-full relative group overflow-hidden">
+      {%- if section.settings.image_1 != blank -%}
+        {{
+          section.settings.image_1
+          | image_url: width: 1500
+          | image_tag:
+            loading: 'lazy',
+            class: 'absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110'
+        }}
+      {%- else -%}
+        {{ 'lifestyle-1' | placeholder_svg_tag: 'absolute inset-0 w-full h-full object-cover bg-gray-100' }}
+      {%- endif -%}
+
+      <div
+        class="absolute inset-0 bg-black bg-opacity-20 transition-opacity duration-300 group-hover:bg-opacity-30"
+      ></div>
+
+      <a
+        href="{{ section.settings.collection_link_1 }}"
+        class="absolute inset-0 flex items-center justify-center"
+      >
+        <div class="text-center">
+          <h2 class="text-white text-4xl font-light mb-4">
+            {{ section.settings.title_1 | escape }}
+          </h2>
+          <span
+            class="button button--primary"
+          >
+            {{ section.settings.button_text_1 | escape }}
+          </span>
+        </div>
+      </a>
+    </div>
+
+    <!-- Deuxième colonne -->
+    <div class="w-1/2 relative group overflow-hidden">
+      {%- if section.settings.image_2 != blank -%}
+        {{
+          section.settings.image_2
+          | image_url: width: 1500
+          | image_tag:
+            loading: 'lazy',
+            class: 'absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110'
+        }}
+      {%- else -%}
+        {{ 'lifestyle-2' | placeholder_svg_tag: 'absolute inset-0 w-full h-full object-cover bg-gray-100' }}
+      {%- endif -%}
+
+      <div
+        class="absolute inset-0 bg-black bg-opacity-20 transition-opacity duration-300 group-hover:bg-opacity-30"
+      ></div>
+
+      <a
+        href="{{ section.settings.collection_link_2 }}"
+        class="absolute inset-0 flex items-center justify-center"
+      >
+        <div class="text-center">
+          <h2 class="text-white text-4xl font-light mb-4">
+            {{ section.settings.title_2 | escape }}
+          </h2>
+          <span
+            class="button button--primary"
+          >
+            {{ section.settings.button_text_2 | escape }}
+          </span>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Double colonnes",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Première colonne"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_1",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "title_1",
+      "label": "Titre",
+      "default": "Collection 1"
+    },
+    {
+      "type": "text",
+      "id": "button_text_1",
+      "label": "Texte du bouton",
+      "default": "Découvrir"
+    },
+    {
+      "type": "url",
+      "id": "collection_link_1",
+      "label": "Lien de collection"
+    },
+    {
+      "type": "header",
+      "content": "Deuxième colonne"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_2",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "title_2",
+      "label": "Titre",
+      "default": "Collection 2"
+    },
+    {
+      "type": "text",
+      "id": "button_text_2",
+      "label": "Texte du bouton",
+      "default": "Découvrir"
+    },
+    {
+      "type": "url",
+      "id": "collection_link_2",
+      "label": "Lien de collection"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Double colonnes",
+      "category": "Image"
+    }
+  ]
+}
+{% endschema %}
