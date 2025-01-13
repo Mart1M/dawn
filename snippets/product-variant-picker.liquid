@@ -13,6 +13,7 @@
     id="variant-selects-{{ section.id }}"
     data-section="{{ section.id }}"
     {{ block.shopify_attributes }}
+    class="block w-full"
   >
     {%- for option in product.options_with_values -%}
       {%- liquid
@@ -28,47 +29,59 @@
         endif
       -%}
       {%- if picker_type == 'swatch' -%}
-        <fieldset class="js product-form__input product-form__input--swatch">
-          <legend class="text-base font-medium">
+        <fieldset>
+          <legend class="text-base font-medium mb-2">
             {{ option.name }}:
-            <span data-selected-value>
+            <span data-selected-value class="ml-1">
               {{- option.selected_value -}}
             </span>
           </legend>
-          {% render 'product-variant-options',
-            product: product,
-            option: option,
-            block: block,
-            picker_type: picker_type
-          %}
+          <div class="flex flex-wrap gap-2">
+            {% render 'product-variant-options',
+              product: product,
+              option: option,
+              block: block,
+              picker_type: picker_type
+            %}
+          </div>
         </fieldset>
       {%- elsif picker_type == 'button' -%}
-        <fieldset class="js product-form__input product-form__input--pill">
-          <legend class="text-base font-medium text-slate-900">{{ option.name }}</legend>
-          {% render 'product-variant-options',
-            product: product,
-            option: option,
-            block: block,
-            picker_type: picker_type
-          %}
+        <fieldset>
+          <legend class="text-sm font-medium text-slate-900 mb-2">
+            {{ option.name }}:
+            <span data-selected-value class="ml-1">
+              {{- option.selected_value -}}
+            </span>
+          </legend>
+          <div class="flex flex-wrap gap-2">
+            {% render 'product-variant-options',
+              product: product,
+              option: option,
+              block: block,
+              picker_type: picker_type
+            %}
+          </div>
         </fieldset>
       {%- else -%}
-        <div class="product-form__input product-form__input--dropdown">
-          <label class="" for="Option-{{ section.id }}-{{ forloop.index0 }}">
-            {{ option.name }}
+        <div class="mb-4">
+          <label
+            class="block text-sm font-medium text-slate-900 mb-2"
+            for="Option-{{ section.id }}-{{ forloop.index0 }}"
+          >
+            {{ option.name }}:
+            <span data-selected-value class="ml-1">
+              {{- option.selected_value -}}
+            </span>
           </label>
-          <div class="select">
+          <div class="relative">
             {%- if picker_type == 'swatch_dropdown' -%}
-              <span
-                data-selected-value
-                class="dropdown-swatch"
-              >
+              <span data-selected-value class="absolute left-3 top-1/2 transform -translate-y-1/2">
                 {% render 'swatch', swatch: option.selected_value.swatch, shape: block.settings.swatch_shape %}
               </span>
             {%- endif -%}
             <select
               id="Option-{{ section.id }}-{{ forloop.index0 }}"
-              class="select__select"
+              class="w-full h-10 pl-3 pr-10 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-slate-500 rounded-none appearance-none bg-white"
               name="options[{{ option.name | escape }}]"
               form="{{ product_form_id }}"
             >
@@ -79,9 +92,11 @@
                 picker_type: picker_type
               %}
             </select>
-            <span class="svg-wrapper">
-              {{- 'icon-caret.svg' | inline_asset_content -}}
-            </span>
+            <div class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+              <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+              </svg>
+            </div>
           </div>
         </div>
       {%- endif -%}
@@ -89,6 +104,19 @@
 
     <script type="application/json" data-selected-variant>
       {{ product.selected_or_first_available_variant | json }}
+    </script>
+
+    <script>
+      document.addEventListener('change', function (event) {
+        if (event.target.classList.contains('variant-selector')) {
+          const labels = event.target.closest('fieldset').querySelectorAll('.variant-label');
+          labels.forEach((label) => {
+            label.classList.remove('border-2', 'border-slate-900');
+          });
+          const selectedLabel = event.target.nextElementSibling;
+          selectedLabel.classList.add('border-2', 'border-slate-900');
+        }
+      });
     </script>
   </variant-selects>
 {%- endunless -%}

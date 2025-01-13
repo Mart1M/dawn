@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "Shopify theme with Tailwind CSS",
   "scripts": {
-    "build": "npx tailwindcss -i ./src/tailwind.css -o ./assets/tailwind-output.css --watch"
+    "build": "npx tailwindcss -i ./src/tailwind.css -o ./assets/tailwind-output.css --watch",
+    "watch": "npx tailwindcss -i ./src/tailwind.css -o ./assets/tailwind-output.css --watch"
   },
   "devDependencies": {
     "tailwindcss": "^3.4.1"

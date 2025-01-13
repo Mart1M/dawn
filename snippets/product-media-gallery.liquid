@@ -66,7 +66,7 @@
     <button
       type="button"
       @click="activeImage = activeImage === 0 ? {{ media_count | minus: 1 }} : activeImage - 1"
-      class="absolute left-4 top-1/2 -translate-y-1/2 bg-white/80 rounded-full p-2 shadow-lg hover:bg-white transition-colors"
+      class="absolute left-4 top-1/2 -translate-y-1/2 bg-white/80 p-2 shadow-lg hover:bg-white transition-colors"
       aria-label="{{ 'products.product.previous_image' | t }}"
     >
       <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -76,7 +76,7 @@
     <button
       type="button"
       @click="activeImage = activeImage === {{ media_count | minus: 1 }} ? 0 : activeImage + 1"
-      class="absolute right-4 top-1/2 -translate-y-1/2 bg-white/80 rounded-full p-2 shadow-lg hover:bg-white transition-colors"
+      class="absolute right-4 top-1/2 -translate-y-1/2 bg-white/80  p-2 shadow-lg hover:bg-white transition-colors"
       aria-label="{{ 'products.product.next_image' | t }}"
     >
       <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">

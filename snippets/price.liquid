@@ -75,7 +75,7 @@
           <span class="visually-hidden visually-hidden--inline">{{ 'products.product.price.regular_price' | t }}</span>
         {%- endif -%}
       </div>
-      <div class="flex items-baseline gap-2">
+      <div class="flex items-baseline {% if compare_at_price > price %}gap-2{% endif %}">
         {%- unless product.price_varies == false and product.compare_at_price_varies %}
           <span class="visually-hidden visually-hidden--inline">{{ 'products.product.price.regular_price' | t }}</span>
           <span>

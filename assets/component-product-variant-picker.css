@@ -58,10 +58,10 @@ variant-selects {
 
 /* Custom styles for Pill display type */
 .product-form__input--pill input[type='radio'] + label {
-  border: 2px solid rgba(var(--color-foreground), var(--variant-pills-border-opacity));
+  border: 1px solid rgba(var(--color-foreground), var(--variant-pills-border-opacity));
   background-color: rgb(var(--color-background));
   color: rgba(var(--color-foreground));
-  border-radius: var(--variant-pills-radius);
+  border-radius: 0;
   color: rgb(var(--color-foreground));
   display: inline-block;
   margin: 0.7rem 0.5rem 0.2rem 0;
@@ -69,7 +69,7 @@ variant-selects {
   letter-spacing: 0.1rem;
   line-height: 1;
   text-align: center;
-  transition: border var(--duration-short) ease;
+  transition: all var(--duration-short) ease;
   cursor: pointer;
   position: relative;
 }
@@ -82,7 +82,7 @@ variant-selects {
   bottom: calc(var(--variant-pills-border-width) * -1);
   left: calc(var(--variant-pills-border-width) * -1);
   z-index: -1;
-  border-radius: var(--variant-pills-radius);
+  border-radius: 0;
   box-shadow: var(--variant-pills-shadow-horizontal-offset) var(--variant-pills-shadow-vertical-offset)
     var(--variant-pills-shadow-blur-radius) rgba(var(--color-shadow), var(--variant-pills-shadow-opacity));
 }
@@ -94,6 +94,7 @@ variant-selects {
 .product-form__input--pill input[type='radio']:checked + label {
   background-color: rgb(var(--color-foreground));
   color: rgb(var(--color-background));
+
 }
 
 @media screen and (forced-colors: active) {
@@ -122,6 +123,7 @@ variant-selects {
 .product-form__input--pill input[type='radio']:disabled:checked + label {
   color: rgba(var(--color-background), 0.6);
 }
+
 .product-form__input--pill input[type='radio']:focus-visible + label {
   box-shadow: 0 0 0 0.3rem rgb(var(--color-background)), 0 0 0 0.5rem rgba(var(--color-foreground), 0.55);
 }
@@ -139,7 +141,6 @@ variant-selects {
 
 .product-form__input--swatch .swatch-input__input + .swatch-input__label {
   --swatch-input--size: 3.6rem;
-
   margin: 0.7rem 1.2rem 0.2rem 0;
 }
 

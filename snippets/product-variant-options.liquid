@@ -37,6 +37,11 @@
     if value.available
       assign option_disabled = false
     endif
+
+    assign should_be_selected = false
+    if value.selected or forloop.first and value.available
+      assign should_be_selected = true
+    endif
   -%}
 
   {%- capture input_id -%}
@@ -44,7 +49,7 @@
   {%- endcapture -%}
 
   {%- capture input_name -%}
-    {{ option.name }}-{{ option.position }}
+    options[{{ option.name | escape }}]
   {%- endcapture -%}
 
   {%- capture input_dataset -%}
@@ -52,16 +57,9 @@
     data-option-value-id="{{ value.id }}"
   {%- endcapture -%}
 
-  {%- capture label_unavailable -%}
-    <span class="visually-hidden label-unavailable">
-      {{- 'products.product.variant_sold_out_or_unavailable' | t -}}
-    </span>
-  {%- endcapture -%}
-
   {%- if picker_type == 'swatch' -%}
     {%- capture help_text -%}
-      <span class="visually-hidden">{{ value | escape }}</span>
-      {{ label_unavailable }}
+      <span class="sr-only">{{ value | escape }}</span>
     {%- endcapture -%}
     {%
       render 'swatch-input',
@@ -70,36 +68,46 @@
       value: value | escape,
       swatch: value.swatch,
       product_form_id: product_form_id,
-      checked: value.selected,
+      checked: should_be_selected,
       visually_disabled: option_disabled,
       shape: block.settings.swatch_shape,
       help_text: help_text,
       additional_props: input_dataset
     %}
   {%- elsif picker_type == 'button' -%}
-    <input
-      type="radio"
-      id="{{ input_id }}"
-      name="{{ input_name | escape }}"
-      value="{{ value | escape }}"
-      form="{{ product_form_id }}"
-      {% if value.selected %}
-        checked
-      {% endif %}
-      {% if option_disabled %}
-        class="disabled"
-      {% endif %}
-      {{ input_dataset }}
-    >
-    <label for="{{ input_id }}">
-      {{ value -}}
-      {{ label_unavailable }}
-    </label>
+    <div class="product-form__input product-form__input--pill relative">
+      <input
+        type="radio"
+        id="{{ input_id }}"
+        name="{{ input_name }}"
+        value="{{ value | escape }}"
+        form="{{ product_form_id }}"
+        class="absolute w-0 h-0 opacity-0"
+        {% if should_be_selected %}
+          checked
+        {% endif %}
+        {% if option_disabled %}
+          disabled
+        {% endif %}
+        {{ input_dataset }}
+        data-selected-value="{{ value | escape }}"
+      >
+      <label
+        for="{{ input_id }}"
+        class="inline-block px-4 py-2 text-sm"
+      >
+        {{ value -}}
+        {%- if option_disabled -%}
+          <span class="sr-only">{{ 'products.product.variant_sold_out' | t }}</span>
+        {%- endif -%}
+      </label>
+    </div>
+
   {%- elsif picker_type == 'dropdown' or picker_type == 'swatch_dropdown' -%}
     <option
       id="{{ input_id }}"
       value="{{ value | escape }}"
-      {% if value.selected %}
+      {% if should_be_selected %}
         selected="selected"
       {% endif %}
       {% if swatch_value and picker_type == 'swatch_dropdown' %}
@@ -109,12 +117,13 @@
         {% endif %}
       {% endif %}
       {{ input_dataset }}
+      {% if option_disabled %}
+        disabled
+        class="text-gray-400"
+      {% endif %}
     >
-      {% if option_disabled -%}
-        {{- 'products.product.value_unavailable' | t: option_value: value -}}
-      {%- else -%}
-        {{- value -}}
-      {%- endif %}
+      {{ value -}}
+      {%- if option_disabled -%}- {{ 'products.product.variant_sold_out' | t }}{% endif -%}
     </option>
   {%- endif -%}
 {%- endfor -%}
